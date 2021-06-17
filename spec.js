@@ -28,4 +28,40 @@ describe('The API', ()=> {
       });
     });
   });
+  describe('albums routes', ()=> {
+    describe('GET /api/albums', ()=> {
+      it('returns all albums with their artists', async()=> {
+        const response = await app.get('/api/albums');
+        expect(response.status).to.equal(200);
+        expect(response.body.length).to.equal(3);
+        const names = response.body.map( album => album.name);
+        expect(names).to.eql(['Album1', 'Album2', 'Album3']);
+      });
+    });
+  });
+
+  describe('search album routes', ()=> {
+    describe('GET /api/albums/bum1', ()=> {
+      it('returns all albums with the :term in the albums name', async()=> {
+        const response = await app.get('/api/albums/bum1');
+        expect(response.status).to.equal(200);
+        expect(response.body.length).to.equal(1);
+        const names = response.body.map( album => album.name);
+        expect(names).to.eql(['Album1']);
+      });
+    });
+  });
+
+  describe('search track routes', ()=> {
+    describe('GET /api/albums/track', ()=> {
+      it('returns the tracks of an album each track should incude the song. The tracks should be in order based on idx', async()=> {
+        const response = await app.get('/api/albums/track1');
+        expect(response.status).to.equal(200);
+        expect(response.body.length).to.equal(1);
+        const names = response.body.map( track => track.name);
+        expect(names).to.eql(['Track1']);
+      });
+    });
+  });
+
 });
